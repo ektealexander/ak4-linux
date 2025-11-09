@@ -1,3 +1,4 @@
+#!/bin/bash
 set -euo pipefail
 
 DATADIR="/var/lib/mysql"
