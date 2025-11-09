@@ -1,11 +1,30 @@
-FROM alpine:latest
+FROM ubuntu:22.04
 
-RUN apk update && apk add apache2
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo "ServerName localhost" >> /etc/apache2/httpd.conf
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apache2 \
+    php \
+    php-cli \
+    libapache2-mod-php \
+    php-mysql \
+    php-json \
+    ca-certificates \
+    curl \
+ && rm -rf /var/lib/apt/lists/*
 
-COPY index.php /var/www/localhost/htdocs/index.php
+RUN a2enmod php* && a2enmod rewrite
+
+WORKDIR /var/www/html
+
+COPY index.php .
+COPY config.php .
+
+RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+ && a2enconf servername \
+ && sed -i 's/DirectoryIndex .*/DirectoryIndex index.php index.html/' /etc/apache2/mods-enabled/dir.conf \
+ && mkdir -p /var/log/apache2 \
+ && chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
-
-CMD ["httpd", "-D", "FOREGROUND"]
+CMD ["apachectl", "-D", "FOREGROUND"]
