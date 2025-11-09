@@ -87,7 +87,7 @@ services:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/snap/docker/common/var-lib-docker:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     ports:
       - "8081:8080"
