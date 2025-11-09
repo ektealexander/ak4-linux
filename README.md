@@ -44,7 +44,8 @@ For å kjøre dette systemet trenger du:
 
 1) Bygg image-ene og start alle tjenester (bakgrunn):
 
-```git clone https://github.com/ektealexander/ak4-linux.git
+```
+git clone https://github.com/ektealexander/ak4-linux.git
 cd ak4-linux
 docker compose up -d --build
 ```
